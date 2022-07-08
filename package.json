@@ -1,16 +1,26 @@
 {
   "name": "prototypes",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a collection of prototypes to explore things like interactions, visual effects and shaders. Build using [canvas-sketch](https://github.com/mattdesl/canvas-sketch)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TyphaineLeGales/prototypes.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TyphaineLeGales/prototypes/issues"
+  },
+  "homepage": "https://github.com/TyphaineLeGales/prototypes#readme",
   "dependencies": {
     "canvas-sketch": "^0.7.5",
-    "three": "^0.142.0"
+    "postprocessing": "^6.28.1",
+    "three": "^0.141.0",
+    "Three": "npm:three@^0.141.0"
   }
 }

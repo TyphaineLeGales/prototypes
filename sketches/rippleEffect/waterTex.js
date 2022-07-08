@@ -1,6 +1,3 @@
-import * as THREE from "three";
-import { Vector3 } from "three";
-
 export default class WaterTexture {
   constructor({ debug, context }) {
     this.size = 64;
@@ -8,15 +5,23 @@ export default class WaterTexture {
     this.points = []; // stores ripples
     this.radius = this.size * 0.1; //max size of ripples
     this.maxAge = 64;
-    this.ctx = context;
-    this.texture = new THREE.Texture(this.ctx.canvas);
-
+    this.initTexture();
     if (debug) {
-      this.width = this.ctx.canvas.width;
-      this.height = this.ctx.canvas.height;
+      this.width = this.canvas.width;
+      this.height = this.canvas.height;
       this.radius = this.width * 0.05;
+      document.body.append(this.canvas);
     }
-    if (!debug) document.querySelector("canvas").style.display = "none";
+  }
+
+  initTexture() {
+    this.canvas = document.createElement("canvas");
+    this.canvas.id = "WaterTexture";
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.ctx = this.canvas.getContext("2d");
+    this.texture = new THREE.Texture(this.canvas);
+    this.clear();
   }
 
   addPoint(point) {
@@ -55,7 +60,7 @@ export default class WaterTexture {
 
   clear() {
     this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   update() {
