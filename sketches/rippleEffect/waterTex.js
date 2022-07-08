@@ -1,12 +1,15 @@
+import * as THREE from "three";
+import { Vector3 } from "three";
+
 export default class WaterTexture {
   constructor({ debug, context }) {
     this.size = 64;
-    this.width = this.size;
-    this.height = this.size;
+    this.width = this.height = this.size;
     this.points = []; // stores ripples
     this.radius = this.size * 0.1; //max size of ripples
     this.maxAge = 64;
     this.ctx = context;
+    this.texture = new THREE.Texture(this.ctx.canvas);
 
     if (debug) {
       this.width = this.ctx.canvas.width;
@@ -31,9 +34,14 @@ export default class WaterTexture {
     //calc intensity based on age
     const pointIntensity = 1 - point.age / this.maxAge;
 
+    //encode onto color channels
+    const r = ((point.x + 1) / 2) * 255;
+    const g = ((point.y + 1) / 2) * 255;
+    const b = pointIntensity * 255;
+    const color = `${r}, ${g}, ${b}`;
+
     //use shadow instead of gradient to fill it smooth. See difference here : https://stackoverflow.com/questions/10060242/html5-canvas-globalcompositeoperation-for-overlaying-gradients-not-adding-up-to/10166995#10166995
     const offset = this.width * 5;
-    const color = "255,255,255";
     this.ctx.shadowOffsetX = offset;
     this.ctx.shadowOffsetY = offset;
     this.ctx.shadowBlur = radius * 1;
@@ -52,6 +60,7 @@ export default class WaterTexture {
 
   update() {
     this.clear();
+    this.texture.needsUpdate = true;
     this.points = this.points.filter((point) => point.age < this.maxAge);
     this.points.forEach((point) => {
       point.age += 1;
